@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Calender
+{% endblock %}
+{% block body %}
+<style>
+    #calendar-container {
+        border-right: 1px solid #ddd;
+        padding-right: 20px;
+    }
+
+    #entry-form {
+        margin-left: 20px;
+    }
+
+    #calendar-container {
+        padding-right: 20px;
+        border-right: 1px solid #ddd;
+    }
+
+    .table {
+        width: 100%;
+        text-align: center;
+    }
+
+    .date {
+        cursor: pointer;
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+
+    .date:hover {
+        background-color: #e2e6ea;
+    }
+
+    /* Disable future dates (unclickable) */
+    .future-date {
+        color: #ccc;
+        pointer-events: none;
+        /* Make future dates unclickable */
+    }
+
+    /* Highlight the selected date */
+    .selected-date {
+        background-color: #f0ad4e !important;
+        /* Change this to your preferred highlight color */
+        color: white;
+    }
+
+    /* Color dates with data */
+    .filled-date {
+        background-color: #1977cc !important;
+        /* Change to any color you want */
+        color: white !important;
+    }
+</style>
+<div class="container my-5">
+    <div class="row">
+        <!-- Left side: Calendar -->
+        <div class="col-md-6">
+            <div class="calendar-navigation">
+                <button id="prev-month" class="btn btn-secondary">Previous</button>
+                <button id="next-month" class="btn btn-secondary">Next</button>
+            </div>
+            <!-- Month and Year Display -->
+            <div id="calendar-header">
+                <h2 id="month-year"></h2> <!-- Placeholder for month and year -->
+            </div>
+
+
+            <div id="calendar-container">
+                <div id="calendar"></div> <!-- Calendar will be generated here -->
+            </div>
+
+        </div>
+
+        <!-- Right side: Form for selected date -->
+        <div class="col-md-6 my-4">
+            {% if not user.userprofile.height or not user.userprofile.weight %}
+            <div class="alert alert-warning align-items-center">Please add your height and weight in your profile.</div>
+            {% else %}
+            <div id="entry-form">
+                <h4>Entries for <span id="selected-date">{{ today }}</span></h4>
+                <form id="data-entry-form">
+                    <div class="form-group my-3">
+                        <label for="blood-pressure" title="Example: (120/80)">Blood Pressure
+                            (systolic/diastolic)</label>
+                        <input type="text" id="blood-pressure" name="blood_pressure" class="form-control custom-input"
+                            value="{{ entries.blood_pressure }}">
+                        <small class="text-danger" id="bp-error" style="display:none;">Please enter blood pressure in
+                            the format (e.g., 130/80).</small>
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="glucose_level">Glucose level ({{ user.userprofile.gl_unit }})</label>
+                        <input id="glucose_level" name="glucose_level" class="form-control custom-input"
+                            value="{{ entries.glucose_level }}">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="save-entry">Save Entry</button>
+                    <span class="spinner-border spinner-border-sm" id="spinner" style="display: none;" role="status"
+                        aria-hidden="true"></span>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/calender.js' %}"></script>
+<script>
+    document.getElementById('calendar_nav').classList.add('active')
+</script>
+{% endblock %}

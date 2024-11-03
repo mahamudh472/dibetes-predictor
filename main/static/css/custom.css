@@ -1,0 +1,11 @@
+.custom-outline, .custom-input{
+    border-radius: 0;
+    padding: 10px !important;
+    box-shadow: none;
+}
+.custom-input{
+    color: var(--default-color);
+    background-color: transparent;
+    border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+    font-size: 14px;
+}

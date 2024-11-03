@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}
+Dietary Suggestions
+{% endblock %}
+{% block body %}
+
+    <div class="container my-5">
+        <h3 >
+            Dietary suggestion - {{ suggestion.created_at|date:"d M, Y" }}<br>
+        </h3>
+        <h5 class="my-4">
+            Overview: {{ suggestion.get_suggestions.Overview }}
+        </h5>
+        <ul>
+            {% for item in suggestion.get_suggestions.Suggestions %}
+
+                {% if item.Meal_Type %}
+                    <li>
+
+                        {{ item.Meal_Type }}
+                        <ul>
+                            <li>
+                                Ideas:
+                                <ul>
+
+                                    {% for idea in item.Ideas %}
+                                        <li>
+                                            {{ idea }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+                            </li>
+                            <li>
+                                Portion size:
+                                <ul>
+                                    <li>
+                                        {{ item.Portion_Size }}
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+            <li>
+                Snacks:
+                <ul>
+                    {% with suggestion.get_suggestions.Suggestions|last as last_suggestion %}
+                        {% for sn in last_suggestion.Snacks %}
+                            <li>{{ sn }}</li>
+                        {% endfor %}
+                    {% endwith %}
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+    <script>
+    document.getElementById('diet_sugg').classList.add('active')
+    </script>
+
+{% endblock %}

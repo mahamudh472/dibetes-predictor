@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard
+{% endblock %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="container my-4">
+        <h4>Health overview of: {{ user.first_name }} {{ user.last_name }}</h4>
+        <div class="text-muted mx-3 text-uppercase">
+            Gender: {{ user.userprofile.gender }}<br>
+            Age: {{ user.userprofile.get_age }}<br>
+            BMI: {{ user.userprofile.bmi }}<br>
+            Status: <div class="badge text-bg-success">Safe</div>
+
+        </div>
+        <!-- Month/Year Filter Form -->
+        <div class="my-4 text-center">
+            <form method="GET" action="">
+                <label for="month">Select Month:</label>
+                <select id="month" name="month" class="custom-input">
+                    {% for m in month_range %}
+                        <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ m }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="year">Select Year:</label>
+                <select id="year" name="year" class="custom-input">
+                    {% for y in year_range %}
+                        <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="btn btn-sm btn-outline-primary">Filter</button>
+            </form>
+        </div>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <h3>Blood Pressure Over Time</h3>
+                <canvas id="bpChart"></canvas>
+            </div>
+
+            <!-- Glucose Level Chart -->
+            <div class="col-md-6">
+                <h3>Glucose Level Over Time</h3>
+                <canvas id="glChart"></canvas>
+            </div>
+        </div>
+        <!-- Blood Pressure Chart -->
+
+
+        <script>
+            // Data passed from Django
+            const labels = {{ labels|safe }};
+            const bpData = {{ bp_data|safe }};
+            const glData = {{ gl_data|safe }};
+
+            // Blood Pressure Chart
+            const bpConfig = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Blood Pressure',
+                        data: bpData,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            };
+            const bpChart = new Chart(
+                document.getElementById('bpChart'),
+                bpConfig
+            );
+
+            // Glucose Level Chart
+            const glConfig = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Glucose Level',
+                        data: glData,
+                        fill: false,
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            };
+            const glChart = new Chart(
+                document.getElementById('glChart'),
+                glConfig
+            );
+        </script>
+    </div>
+{% endblock %}

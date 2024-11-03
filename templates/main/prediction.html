@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}
+Prediction
+{% endblock %}
+{% block body %}
+    <div class="container my-5">
+        <h5>
+            {% if user.userprofile.status == False %}
+                <div class="badge text-bg-success">Diabetes not detected</div>
+            {% else %}
+                <div class="badge text-bg-danger">Diabetes detected</div>
+            {% endif %}
+            for {{ user.first_name }} {{ user.last_name }}
+        </h5>
+        <h5 class="my-3">Diabetes Risk: {{ user.userprofile.diabetes_risk }}</h5>
+        <p>Overview: {{ user.suggestions.last.get_suggestions.Overview }}</p>
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <h5>Diabetes prediction data:</h5>
+                <table class="table table-responsive table-borderless">
+                    <tr>
+                        <th>Date:</th>
+                        <td>{{ user.entry_set.all.last.date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Glucose Level:</th>
+                        <td>{{ user.entry_set.all.last.glucose_level }} mg/dl</td>
+                    </tr>
+                    <tr>
+                        <th>Blood pressure (systolic/diastolic):</th>
+                        <td>{{ user.entry_set.all.last.blood_pressure }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age:</th>
+                        <td>{{ user.userprofile.get_age }}</td>
+                    </tr>
+                    <tr>
+                        <th>BMI:</th>
+                        <td>{{ user.userprofile.bmi }}</td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h5>
+                    Patient Health survey information:
+                </h5>
+                <table class="table table-responsive table-borderless text-capitalize">
+                    <tr>
+                        <th>Previous diabetes status:</th>
+                        <td>{{ user.health_survey.get_diabetes_status_display }}</td>
+                    </tr>
+                    <tr>
+                        <th>Blood sugar check:</th>
+                        <td>{{ user.health_survey.blood_sugar_check }}</td>
+                    </tr><tr>
+                        <th>Active lifestyle:</th>
+                        <td>{{ user.health_survey.active_lifestyle }}</td>
+                    </tr><tr>
+                        <th>Other illnesses:</th>
+                        <td>{{ user.health_survey.other_illnesses }}</td>
+                    </tr><tr>
+                        <th>Diabetes medication:</th>
+                        <td>{{ user.health_survey.diabetes_medication }}</td>
+                    </tr><tr>
+                        <th>Diabetes family history:</th>
+                        <td>{{ user.health_survey.family_history }}</td>
+                    </tr><tr>
+                        <th>Sugar intake:</th>
+                        <td>{{ user.health_survey.sugar_intake }}</td>
+                    </tr><tr>
+                        <th>symptoms:</th>
+                        <td>
+                            {% for sym in user.health_survey.symptoms.all %}
+                            {{ sym }},
+                            {% endfor %}
+                        </td>
+                    </tr><tr>
+                        <th>High blood pressure:</th>
+                        <td>{{ user.health_survey.get_high_blood_pressure_display }}</td>
+                    </tr><tr>
+                        <th>Gestational diabetes:</th>
+                        <td>{{ user.health_survey.get_gestational_diabetes_display }}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <script>
+    document.getElementById('predictor').classList.add('active')
+    </script>
+{% endblock %}

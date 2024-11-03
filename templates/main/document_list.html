@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+Documents
+{% endblock %}
+{% block body %}
+    <main class="main">
+        <div class="container">
+            <div class="card col-md-8 my-4 m-auto">
+
+                <div class="card-body">
+                    <div class="card-title">
+                        <h3>
+                            Upload medical document
+                        </h3>
+                    </div>
+                    <form action="{% url 'main:documents' %}" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        {{ form.file|add_class:"form-control custom-input my-2" }}
+{#                    <input type="file" name="file" class="">#}
+                        {{ form.description|add_class:"form-control custom-input my-2"|attr:"placeholder:File description" }}
+{#                    <input type="text" name="desc" class="" placeholder="Description">#}
+                    <input type="submit" value="Upload" class="btn btn-outline-success my-2">
+</form>
+                </div>
+            </div>
+            <h3 class="mb-3 mt-5">Uploaded files(3)</h3>
+            {% if not documents %}
+                <div class="file-list py-3" style="min-height: 300px">
+                    <div class="alert alert-warning">
+                        No file added yet.
+                    </div>
+                </div>
+            {% else %}
+            <table class="table table-responsive table-borderless mb-4">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>File</th>
+                    <th>Description</th>
+                    <th>Uploaded </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for doc in documents %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ doc.file_name }}</td>
+                    <td>{{ doc.description }}</td>
+                    <td>{{ doc.uploaded_at }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ doc.file.url }}">Download</a></li>
+                                <li><a class="dropdown-item" href="{% url 'main:delete_file' doc.id %}">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

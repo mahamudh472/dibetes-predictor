@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{% block title %} {% endblock %} - GlucoGuide</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: GlucoGuide
+    * Template URL: https://bootstrapmade.com/GlucoGuide-free-medical-bootstrap-theme/
+    * Updated: Aug 07 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body class="index-page">
+
+<header id="header" class="header sticky-top">
+
+
+    <div class="branding d-flex align-items-center">
+
+        <div class="container position-relative d-flex align-items-center justify-content-between">
+            <a href="{% url 'main:index' %}" class="logo d-flex align-items-center me-auto">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src=" 'logo.png" alt=""> -->
+                <h1 class="sitename">GlucoGuide</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                {% if not user.is_authenticated %}
+                    <ul>
+                        <li><a href="{% url 'main:index' %}#hero">Home<br></a></li>
+                        
+                        <li><a href="{% url 'main:index' %}#about">About</a></li>
+                        <li><a href="{% url 'main:index' %}#faq">FAQ</a></li>
+                        <li><a href="{% url 'accounts:login' %}" class="d-sm-none">Get started</a></li>
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><a href="{% url 'main:index' %}#hero">Home<br></a></li>
+                        <li><a href="{% url 'main:calendar_view' %}" id="calendar_nav">Calender</a></li>
+                        <li><a href="{% url 'main:prediction' %}" id="predictor">Prediction</a></li>
+                        <li><a href="{% url 'main:dietary_suggestion' %}" id="diet_sugg">Dietary suggestion</a></li>
+                        <li class="dropdown"><a style="cursor: pointer"><span>Patient</span> <i
+                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
+                                <li><a href="{% url 'main:profile' %}">Profile</a></li>
+                                <li><a href="{% url 'main:documents' %}">Documents</a></li>
+                                <li><a href="{% url 'main:index' %}#about">About</a></li>
+                                <li><a href="{% url 'main:index' %}#appointment">Appointment</a></li>
+                                <li><a href="{% url 'main:index' %}#faq">FAQ</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+            {% if user.is_authenticated %}
+                <a class="cta-btn d-none d-sm-block" href="{% url 'main:profile' %}">Hey, {{ user.first_name }}</a>
+            {% else %}
+                <a class="cta-btn d-none d-sm-block" href="{% url 'accounts:login' %}">Get started</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</header>
+
+{% block body %} {% endblock %}
+
+<footer id="footer" class="footer light-background">
+
+    <div class="container footer-top">
+        <div class="row gy-4 justify-content-between">
+            <div class="col-lg-4 col-md-6 footer-about">
+                <a href="index.html" class="logo d-flex align-items-center mb-3">
+                    <span class="sitename">GlucoGuide</span>
+                </a>
+                <div class="footer-contact">
+                    <p>A108 Adam Street</p>
+                    <p>New York, NY 535022</p>
+                    <p><strong>Email:</strong> <span>glucoguideaby@gmail.com</span></p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-3 footer-links">
+                <h4>Useful Links</h4>
+                <ul>
+                    <li><a href="{% url 'main:index' %}">Home</a></li>
+                    <li><a href="{% url 'main:index' %}#about">About us</a></li>
+                    <li><a href="{% url 'main:user_manual' %}">User manual</a></li>
+
+                </ul>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">GlucoGuide</strong> <span>All Rights Reserved</span>
+        </p>
+        <div class="credits">
+        </div>
+    </div>
+
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/aos/aos.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+<script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Main JS File -->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+
+</body>
+
+</html>

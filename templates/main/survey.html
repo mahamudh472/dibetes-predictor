@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}
+Health Survey
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <form method="post" class="d-flex flex-column gap-3 col-8 m-auto my-5">
+        <h3>
+            Tell us more about you.
+        </h3>
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="diabetes_status">Do you currently have diabetes or predicates?</label>
+                {{ form.diabetes_status }}
+            </div>
+
+            <div class="form-group">
+                <label for="blood_sugar_check">Do you regularly check on your blood sugar levels?</label>
+                {{ form.blood_sugar_check }}
+            </div>
+
+            <div class="form-group">
+                <label for="active_lifestyle">Do you live an active life?</label>
+                {{ form.active_lifestyle }}
+            </div>
+
+            <div class="form-group">
+                <label for="other_illnesses">Are you having any other medical illnesses?</label>
+                {{ form.other_illnesses }}
+            </div>
+
+            <div class="form-group">
+                <label for="diabetes_medication">Are you currently taking any medication if you have diabetes?</label>
+                {{ form.diabetes_medication }}
+            </div>
+
+            <div class="form-group">
+                <label for="family_history">Do you have a family history of diabetes?</label>
+                {{ form.family_history }}
+            </div>
+
+            <div class="form-group">
+                <label for="sugar_intake">What is your average daily intake of sugary foods and drinks? </label>
+                {{ form.sugar_intake }}
+            </div>
+
+            <div class="form-group">
+    <label for="symptoms">Do you experience any of the following symptoms? </label>
+    <div>
+        <!-- Loop through the symptoms checkboxes -->
+        {% for checkbox in form.symptoms %}
+            {% if checkbox.choice_label == 'None' %}
+                <!-- Set a specific id for the "None" option -->
+                <div>
+                    <input type="checkbox" id="symptom-none" name="symptoms" value="{{ checkbox.data.value }}" {% if checkbox.data.checked %}checked{% endif %}>
+                    <label for="symptom-none">{{ checkbox.choice_label }}</label>
+                </div>
+            {% else %}
+                <!-- Render other symptoms with their default IDs -->
+                <div>
+                    {{ checkbox.tag }} {{ checkbox.choice_label }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+            <div class="form-group">
+                <label for="high_blood_pressure">Do you have high blood pressure?</label>
+                {{ form.high_blood_pressure }}
+            </div>
+
+            <div class="form-group">
+                <label for="gestational_diabetes">Have you ever been diagnosed with gestational diabetes?</label>
+                {{ form.gestational_diabetes }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const noneOption = document.getElementById("symptom-none");
+            const symptomCheckboxes = document.querySelectorAll('input[name="symptoms"]');
+
+            noneOption.addEventListener('change', function () {
+                if (noneOption.checked) {
+                    // Deselect all other checkboxes if "None" is selected
+                    symptomCheckboxes.forEach(function (checkbox) {
+                        if (checkbox !== noneOption) {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            });
+
+            symptomCheckboxes.forEach(function (checkbox) {
+                if (checkbox !== noneOption) {
+                    checkbox.addEventListener('change', function () {
+                        if (checkbox.checked) {
+                            noneOption.checked = false; // Uncheck "None" if any other symptom is selected
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

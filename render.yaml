@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: "diabetes_predictor"
+    buildCommand: "./build.sh"
+    env: python
+    startCommand: "gunicorn diabetes_predictor.wsgi:application"

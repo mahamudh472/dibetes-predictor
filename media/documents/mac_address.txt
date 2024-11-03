@@ -1,0 +1,9 @@
+Desktop = 0a:e0:af:f8:01:0b
+Me = 96:e5:4d:90:7f:d0
+Afsana = fa:c0:c0:fb:48:82
+Sagorer Baba = ae:41:2c:04:8d:68
+Mukim = 40:d2:5f:f7:77:f9
+sonali = 30:6a:85:6a:ce:58
+Sagorer ma = 36:08:75:bc:b2:5b
+sagor = 8e:3b:69:c0:3b:ad
+Jim = c2:31:b1:bd:e4:71

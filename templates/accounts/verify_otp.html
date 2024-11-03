@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main class="main row justify-content-center">
+    <div class="card col-md-6 center-x p-5 m-5">
+        <div class="card-title text-center">
+            <h3>OTP Verification</h3>
+        </div>
+        <div class="card-body">
+
+            <form method="POST">
+                {% csrf_token %}
+                {% if messages %}
+                <div class="error">
+                    {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show"
+                        role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="form-group my-2">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" class="form-control custom-input" name="otp" required>
+                </div>
+
+                <button type="submit" class="btn btn-outline-primary custom-outline form-control my-2">Verify
+                    OTP</button>
+            </form>
+            <p>If you didn't receive the email, <a href="{% url 'accounts:resend_otp' %}">click here to resend OTP</a>.
+            </p>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

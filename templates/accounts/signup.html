@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main class="main row justify-content-center">
+    <div class="card col-md-6 center-x p-5 m-5">
+        <div class="card-title text-center">
+            <h3>Welcome User, Register</h3>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'accounts:register' %}" method="post">
+                {% csrf_token %}
+                {% if messages %}
+                <div class="error">
+                    {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      {% endfor %}
+                </div>
+                {% endif %}
+                <input type="text" class="form-control custom-input my-2" name="first_name" placeholder="First name" required>
+                <input type="text" class="form-control custom-input my-2" name="last_name" placeholder="Last name" required>
+                <select name="gender" id="" class="form-select custom-outline my-2" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <input type="date" class="form-control custom-outline my-2" name="dob" required>
+                <input type="email" class="form-control custom-input my-2" name="email" placeholder="Enter your email" required>
+                <input type="password" class="form-control custom-input my-2" name="password" placeholder="Password" required>
+                <input type="password" class="form-control custom-input my-2" name="password2" placeholder="Confirm password" required>
+
+                <p class="my-2">By clicking Register you are accepting our <a href="#"> terms and conditions </a> </p>
+                <input type="submit" value="Register" class="btn btn-outline-primary form-control custom-outline my-3">
+                <p class="m-2">Or, continue with</p>
+
+                <button type="button" class="btn btn-dark form-control custom-outline" onclick="window.alert('This functiontionality is not add yet.')">
+                    <i class="bi bi-google"></i> Google
+                </button>
+
+                <div class="text-center my-2">
+                    Already have an account? <a href="{% url 'accounts:login' %}">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

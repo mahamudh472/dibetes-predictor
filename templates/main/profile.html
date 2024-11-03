@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock %}
+{% block body %}
+    <main class="main container my-3">
+        <div class="row align-items-center border-bottom p-2">
+            <div class="col-md-8 d-md-flex gap-3 align-items-center">
+                <div class="image-container ">
+                    <img src="
+                            {% if user.userprofile.avatar %}{{ user.userprofile.avatar.url }}{% else %}{% static 'img/avatar.png' %}{% endif %}"
+                         class="rounded-circle" alt="profile_image"
+                         style="height: 150px" width="150px">
+                </div>
+                <div class="name-container">
+                    <h4>{{ user.userprofile }}</h4>
+                    <div class="text-muted">
+                        @{{ user.username }}
+                        
+                    </div>
+                    {% if user.userprofile.status == False %}
+                    <div class="badge text-bg-success my-2">Diabetes not detected</div>
+                    {% else %}
+                    <div class="badge text-bg-danger my-2">Diabetes detected</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <button class="btn btn-dark float-md-end" data-bs-toggle="modal" data-bs-target="#profileModal">Edit
+                    profile
+                </button>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col">
+                <h3>Personal Details</h3>
+                <table class="table table-responsive table-borderless">
+                    <tr>
+                        <th>Full name:</th>
+                        <td>{{ user.userprofile }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gender:</th>
+                        <td>{{ user.userprofile.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth:</th>
+                        <td>{{ user.userprofile.date_of_birth }}</td>
+                    </tr>
+                    <tr>
+                        <th>Height (meter):</th>
+                        <td>
+                            {% if user.userprofile.height %}
+                            {{ user.userprofile.height }}m
+                            {% else %}
+                            Not Mentioned
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Weight (kg):</th>
+                        <td>
+                            {% if user.userprofile.weight %}
+                            {{ user.userprofile.weight }}kg
+                            {% else %}
+                            Not Mentioned
+                            {% endif %}
+                        </td>
+                    </tr><tr>
+                        <th>BMI:</th>
+                        <td>{{ user.userprofile.bmi }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address:</th>
+                        <td>{{ user.userprofile.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number:</th>
+                        <td>{{ user.userprofile.phone }}</td>
+                    </tr>
+                </table>
+                <a href="{% url 'main:health_servey' %}" class="btn btn-outline-dark">Update your health Survey data.</a>
+                <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Logout</a>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <form action="{% url 'accounts:change_profile_photo' %}" method="post"
+                                  enctype="multipart/form-data" class="row my-2">
+                                {% csrf_token %}
+                                <h6 class="my-2">Update Profile picture</h6>
+                                <div class="col-8">
+                                    <input type="file" class="form-control file-upload custom-input" name="photo"
+                                           value="{{ user.userprofile.avatar }}"></div>
+                                <div class="col-4">
+                                    <input type="submit" value="Upload"
+                                           class="btn btn-outline-primary custom-outline form-control">
+
+                                </div>
+                            </form>
+
+                            <h6 class="my-2">
+                                Update profile details
+                            </h6>
+                            <form action="{% url 'accounts:update_profile_info' %}" class="row" method="post" id="data_form">
+                            {% csrf_token %}
+                                <div class="mb-3 col-6">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control custom-input" id="first_name"
+                                           name="first_name"
+                                           value="{{ user.first_name }}">
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control custom-input" id="last_name" name="last_name"
+                                           value="{{ user.last_name }}">
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control custom-input" id="username" name="username"
+                                           value="{{ user.username }}" disabled>
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control custom-input" id="email" name="email"
+                                           value="{{ user.email }}" disabled>
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select name="gender" id="gender" class="form-select custom-input">
+                                        <option value="male" {% if user.userprofile.gender == 'male' %}
+                                                selected {% endif %}>Male
+                                        </option>
+                                        <option value="female" {% if user.userprofile.gender == 'female' %}
+                                                selected {% endif %}>Female
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="dob" class="form-label">Date of birth</label>
+                                    <input type="date" class="form-control custom-input" id="dob" name="dob"
+                                           value="{{ user.userprofile.date_of_birth|date:'Y-m-d' }}">
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="height" class="form-label">Height (in meter)</label>
+                                    <input type="number" class="form-control custom-input" id="height" name="height"
+                                           value="{{ user.userprofile.height }}">
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="weight" class="form-label">Weight (in kg)</label>
+                                    <input type="number" class="form-control custom-input" id="weight" name="weight"
+                                           value="{{ user.userprofile.weight }}">
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control custom-input" id="address" name="address"
+                                           value="{{ user.userprofile.address }}">
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control custom-input" id="phone" name="phone"
+                                           value="{{ user.userprofile.phone }}">
+                                </div>
+                                <div class="mb-3  col-6">
+                                    <label for="gl_unit" class="form-label">Glucose level unit</label>
+                                    <select name="gl_unit" id="gl_unit" class="form-select custom-input">
+                                        <option value="mg/dl" {% if user.userprofile.gl_unit == 'mg/dl' %}selected{% endif %}>mg/dl</option>
+                                        <option value="mmol/l" {% if user.userprofile.gl_unit == 'mmol/l' %}selected{% endif %}>mmol/L</option>
+                                    </select>
+                                    
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('data_form').submit()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+{% endblock %}

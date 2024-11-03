@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoGuide User Manual</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row mb-5">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <h5 class="sidebar-heading">User Manual</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#introduction">Introduction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#system-requirements">System Requirements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#getting-started">Getting Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Key Features</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#troubleshooting">Troubleshooting</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#support">Contact and Support</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:index' %}"> &larr; Back to home</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-7 col-lg-8 px-md-4">
+            <div class="pt-4">
+                <h2 id="introduction">Introduction</h2>
+                <p>Welcome to the GlucoGuide User Manual. This guide will help you navigate the features of GlucoGuide,
+                    a tool designed to assist in managing diabetes.</p>
+
+                <h2 id="system-requirements">System Requirements</h2>
+                <p>GlucoGuide is compatible with modern browsers and mobile devices. Ensure you have an internet
+                    connection for optimal performance.</p>
+
+                <h2 id="getting-started">Getting Started</h2>
+                <p>To start using GlucoGuide, click the <a href="{% url 'accounts:login' %}">"Get started"</a> button in
+                    the navigation bar. This will redirect you to the login page. If you don't have an account, click <a
+                            href="{% url 'accounts:register' %}">"Register now"</a> at the bottom of the login form to
+                    go to the Sign-Up page. Complete the registration form, including Two-Factor Authentication (2FA),
+                    to create your account. After registering, you’ll be redirected to a health survey form. Once you've
+                    completed the survey, your account will be ready to use.
+                </p>
+
+                <h2 id="features">Key Features</h2>
+                <h4>1. Daily Health Calendar</h4>
+                <p>Update your blood pressure and glucose levels daily in the Health Calendar. You can find the <a
+                        href="{% url 'main:calendar_view' %}">calendar</a> in the navigation menu. If your height and
+                    weight are not yet added to your profile, you’ll need to update them. Go to your <a
+                            href="{% url 'main:profile' %}">profile</a> page, click "Edit Profile," and enter your
+                    height and weight in the designated fields. Afterward, return to the calendar, where the Health
+                    Information fields will now be available. On the left side, you’ll see a color-coded calendar
+                    indicating the selected date, and on the right side are fields for entering daily health
+                    information. Be sure to fill it out each day.
+                </p>
+                <h4>2. Diabetes Prediction</h4>
+                <p>Diabetes prediction is performed by a trained model, which automatically processes data in the
+                    background whenever you update your daily Health Calendar form. The model monitors your daily health
+                    information and retrieves necessary details from your profile. The prediction results will be
+                    displayed on the <a href="{% url 'main:prediction' %}">Prediction</a> page, which you can access by
+                    clicking "Prediction" in the navigation menu.</p>
+                <h4>3. Dietary Suggestions</h4>
+                <p>Dietary suggestions are generated after the prediction model completes its analysis and returns the
+                    results. Based on the report, dietary recommendations are made according to predefined conditions
+                    that depend on the diabetes risk percentage. You can find these dietary suggestions on the <a
+                            href="{% url 'main:dietary_suggestion' %}">Dietary Suggestions</a> page.</p>
+
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <p>If you experience login issues, click "Forgot Password" to reset your credentials. For further
+                    assistance, contact support.</p>
+
+                
+                <h2 id="support">Contact and Support</h2>
+                <p>If you need additional help, please reach out to our support team at glucoguideaby@gmail.com.</p>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
