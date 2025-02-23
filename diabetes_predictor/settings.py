@@ -134,12 +134,15 @@ MEDIA_ROOT =  BASE_DIR /'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server address
 EMAIL_PORT = 587  # Port for TLS/STARTTLS (587 for TLS, 465 for SSL)
 EMAIL_USE_TLS = True  # Enable TLS encryption
 EMAIL_USE_SSL = False  # Set it to False when using TLS
-EMAIL_HOST_USER = 'service.mahamudh472@gmail.com'  # Your Gmail email address
-EMAIL_HOST_PASSWORD = 'qynb mxuj sedg brlg'  # Your Gmail password or app-specific password
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = 'service.mahamudh472@gmail.com'  # Email address to use as the sender
